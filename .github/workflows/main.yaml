@@ -34,7 +34,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
     - name: Update package.json version
-        uses: devops-actions/json-to-file@v1.0.4
-        with:
-          filename: 'update.json'
-          json: "{'version': '${{ steps.read_property.outputs.versionCode }}', 'versionCode': ${{ steps.read_property.outputs.versionCode }}, 'zipUrl': '${{ fromJSON(steps.publish_release.outputs.assets)[0].browser_download_url }}', 'changelog': 'https://github.com/HeyItsJono/enable-blurs/raw/refs/heads/main/CHANGELOG.md'}"
+      uses: devops-actions/json-to-file@v1.0.4      
+      with:
+        filename: 'update.json'
+        json: "{'version': '${{ steps.read_property.outputs.versionCode }}', 'versionCode': ${{ steps.read_property.outputs.versionCode }}, 'zipUrl': '${{ fromJSON(steps.publish_release.outputs.assets)[0].browser_download_url }}', 'changelog': 'https://github.com/HeyItsJono/enable-blurs/raw/refs/heads/main/CHANGELOG.md'}"
