@@ -41,7 +41,7 @@ jobs:
       uses: devops-actions/json-to-file@v1.0.4      
       with:
         filename: 'update.json'
-        json: "{'version': '${{ steps.read_property.outputs.versionCode }}', 'versionCode': ${{ steps.read_property.outputs.versionCode }}, 'zipUrl': '${{ fromJSON(steps.publish_release.outputs.assets)[0].browser_download_url }}', 'changelog': 'https://github.com/HeyItsJono/enable-blurs/raw/refs/heads/main/CHANGELOG.md'}"
+        json: '{"version": "${{ steps.read_property.outputs.versionCode }}", "versionCode": ${{ steps.read_property.outputs.versionCode }}, "zipUrl": "${{ fromJSON(steps.publish_release.outputs.assets)[0].browser_download_url }}", "changelog": "https://github.com/HeyItsJono/enable-blurs/raw/refs/heads/main/CHANGELOG.md"}'
     - name: Commit update.json
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
