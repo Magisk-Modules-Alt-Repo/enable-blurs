@@ -1,2 +1,9 @@
-# enable-blurs
-Magisk Module to enable blurs on Pixel 5.
+# Changelog
+
+### Version 2
+
+* Fix workflow
+
+### Version 1
+
+* Initial commit
