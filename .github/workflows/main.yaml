@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Read Version value from module.prop file
       id: read_property
-      uses: kartikarora/dot-properties@v1
+      uses: kartikarora/dot-properties@v1.0.0
       with:
         read-path: './module.prop'
         read-properties: 'versionCode'
@@ -35,6 +35,6 @@ jobs:
       uses: restackio/update-json-file-action@2.1
       with:
         file: update.json
-        fields: "{'version': '${{ steps.read_property.versionCode }}', 'versionCode': ${{ steps.read_property.versionCode }}, 'zipUrl': '${{ fromJSON(steps.publish_release.outputs.assets)[0].browser_download_url }}', 'changelog': 'url'}"
+        fields: "{'version': '${{ steps.read_property.versionCode }}', 'versionCode': ${{ steps.read_property.versionCode }}, 'zipUrl': '${{ fromJSON(steps.publish_release.outputs.assets)[0].browser_download_url }}', 'changelog': 'https://github.com/HeyItsJono/enable-blurs/raw/refs/heads/main/CHANGELOG.md'}"
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
