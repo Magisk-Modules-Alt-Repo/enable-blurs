@@ -1,0 +1,7 @@
+id=enable-blurs
+name=Enable Blurs
+version=1
+versionCode=1
+author=HeyItsJono
+description=More extensive blur enabler for Magisk, built specifically with the Pixel 5 in mind.
+updateJson=url

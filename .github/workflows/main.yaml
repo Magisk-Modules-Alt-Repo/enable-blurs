@@ -1,0 +1,40 @@
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+    - .github/workflows/*
+
+env:
+  GITHUB_TOKEN: ${{ github.token }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+    - name: Read Version value from module.prop file
+      id: read_property
+      uses: kartikarora/dot-properties@v1
+      with:
+        read-path: './module.prop'
+        read-properties: 'versionCode'
+    - name: Print Version
+      run: echo ${{ steps.read_property.versionCode }}
+    - name: Build
+      run: zip -r magisk-enable-blurs.zip . -x '*git*'
+    - name: Publish
+      id: publish_release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: 'magisk-enable-blurs.zip'
+        tag_name: "v${{ steps.read_property.versionCode }}"
+    - name: Update package.json version
+      uses: restackio/update-json-file-action@2.1
+      with:
+        file: update.json
+        fields: "{'version': '${{ steps.read_property.versionCode }}', 'versionCode': ${{ steps.read_property.versionCode }}, 'zipUrl': '${{ fromJSON(steps.publish_release.outputs.assets)[0].browser_download_url }}', 'changelog': 'url'}"
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
