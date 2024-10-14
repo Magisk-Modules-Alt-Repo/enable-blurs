@@ -22,7 +22,7 @@ jobs:
         read-path: './module.prop'
         read-properties: 'versionCode'
     - name: Print Version
-      run: echo ${{ steps.read_property.versionCode }}
+      run: echo ${{ steps.read_property.outputs.versionCode }}
     - name: Build
       run: zip -r magisk-enable-blurs.zip . -x '*git*'
     - name: Publish
@@ -30,11 +30,11 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: 'magisk-enable-blurs.zip'
-        tag_name: "v${{ steps.read_property.versionCode }}"
+        tag_name: "v${{ steps.read_property.outputs.versionCode }}"
     - name: Update package.json version
       uses: restackio/update-json-file-action@2.1
       with:
         file: update.json
-        fields: "{'version': '${{ steps.read_property.versionCode }}', 'versionCode': ${{ steps.read_property.versionCode }}, 'zipUrl': '${{ fromJSON(steps.publish_release.outputs.assets)[0].browser_download_url }}', 'changelog': 'https://github.com/HeyItsJono/enable-blurs/raw/refs/heads/main/CHANGELOG.md'}"
+        fields: "{'version': '${{ steps.read_property.outputs.versionCode }}', 'versionCode': ${{ steps.read_property.outputs.versionCode }}, 'zipUrl': '${{ fromJSON(steps.publish_release.outputs.assets)[0].browser_download_url }}', 'changelog': 'https://github.com/HeyItsJono/enable-blurs/raw/refs/heads/main/CHANGELOG.md'}"
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
