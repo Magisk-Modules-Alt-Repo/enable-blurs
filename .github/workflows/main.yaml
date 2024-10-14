@@ -13,8 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
     - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        fetch-depth: 0
     - name: Read Version value from module.prop file
       id: read_property
       uses: kartikarora/dot-properties@v1.0.0
@@ -38,3 +42,14 @@ jobs:
       with:
         filename: 'update.json'
         json: "{'version': '${{ steps.read_property.outputs.versionCode }}', 'versionCode': ${{ steps.read_property.outputs.versionCode }}, 'zipUrl': '${{ fromJSON(steps.publish_release.outputs.assets)[0].browser_download_url }}', 'changelog': 'https://github.com/HeyItsJono/enable-blurs/raw/refs/heads/main/CHANGELOG.md'}"
+    - name: Commit update.json
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add 'update.json'
+        git commit -m "Bump update.json"
+    - name: Push update.json
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
