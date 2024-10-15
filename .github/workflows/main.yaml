@@ -31,8 +31,9 @@ jobs:
       run: zip -r magisk-enable-blurs.zip . -x '*git*'
     - name: Publish
       id: publish_release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2.0.8
       with:
+        body_path: CHANGELOG.md
         files: 'magisk-enable-blurs.zip'
         tag_name: "v${{ steps.read_property.outputs.versionCode }}"
       env:
